@@ -26,7 +26,11 @@ void ExibeMenu(){
             "\t\t|\t\t\t4 - Adicionar Novo Orcamento\t\t|\n"  //Joao :3
             "\t\t|\t\t\t5 - Fechar Orcamento \t\t\t|\n"         //Joao
             "\t\t|\t\t\t6 - Historico \t\t\t\t|\n"              //Milere
+<<<<<<< HEAD
             "\t\t|\t\t\t7 - Atualizar Despesa \t\t\t|\n"
+=======
+            "\t\t|\t\t\t7 - Atuazlizar Despesa \t\t\t\t|\n" //Louise
+>>>>>>> 35121e916b14bb0180afbbf8b2cf0de8911ac201
             "\t\t|\t\t\t8 - Fechar \t\t\t\t|\n"
             "\t\t|\t\t\t\t\t\t\t\t|\n"
             "\t\t-----------------------------------------------------------------\n\n");
@@ -44,6 +48,12 @@ void MenuDespesa(){
             "\t\t|\t\t\t7 - Lazer \t\t\t\t|\n"
             "\t\t|\t\t\t8 - Outros \t\t\t\t|\n"
             "\t\t|\t\t\t9 - Voltar para menu principal \t\t\t\t|\n");
+    }
+
+    float SomaDespesa(float soma){
+        float valor;
+        valor = soma;
+        return valor;
     }
 
 //Função pra criar o novo orcamento com os valores zerados
@@ -148,11 +158,82 @@ int main(void){
 
 
             case 3:
+                MenuDespesa();
+                financasMensais = fopen("Financas.dat", "r+b");
 
-                /*Opção 3 --->  Adicionar dispesas, deve-se da um menu para opções de dispesas, 1 - 5, e de
-                                acordo com a opção, o valor que o usuário digitar vai ser salvo na ultima
-                                possição do vetor referente aquela despesa, quando esse valor for
-                                adicionado, deve-se abrir novamente o arquivo e alterar a ultima estrutura.
+                    if(financasMensais == NULL){
+                        puts("\t >>> Nao foi possivel abrir o arquivo");
+                        return 1;
+                    }else{
+                        fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
+                        printf("Digite a despesa que sera adicionada: \n");
+                        scanf("%d", &opDespesa);
+
+                        if (opDespesa == 9)
+                            break;
+
+                        float valor = 0;
+
+                        switch(opDespesa){
+                            case 1:
+                                puts("Agua:");
+                                scanf("%f", &valor);
+                                orcamentoMensal.despesas[AGUA] += valor;
+                                break;
+
+                            case 2:
+                                puts("Luz:");
+                                scanf("%f", &valor);
+                                orcamentoMensal.despesas[LUZ] += valor;
+                                break;
+
+                            case 3:
+                                puts("Internet:");
+                                scanf("%f", &valor);
+                                orcamentoMensal.despesas[INTERNET] += valor;
+                                break;
+
+                            case 4:
+                                puts("Educacao:");
+                                scanf("%f", &orcamentoMensal.despesas[EDUCACAO]);
+                                break;
+
+                            case 5:
+                                puts("Transporte:");
+                                scanf("%f", &valor);
+                                orcamentoMensal.despesas[TRANSPORTE] += valor;
+                                break;
+
+                            case 6:
+                                puts("Alimento:");
+                                scanf("%f", &valor);
+                                orcamentoMensal.despesas[ALIMENTO] += valor;
+                                break;
+
+                            case 7:
+                                puts("Lazer:");
+                                scanf("%f", &orcamentoMensal.despesas[LAZER]);
+                                break;
+
+                            case 8:
+                                puts("Outros:");
+                                sscanf("%f", &valor);
+                                orcamentoMensal.despesas[OUTROS] += valor;
+                                break;
+
+                            default:
+                                puts("Opcao invalida");
+                                break;
+                        }
+                    }
+
+                fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_CUR);
+                fwrite(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
+                fclose(financasMensais);
+
+
+                /*Opção 3 --->  Adicionar dispesas, deve-se da um menu para opções de despesas, 1 - 5, e de
+                                acordo com a opção, o valor que o usuário digitar vai ser salvo.
                 */
                 break;
 
@@ -317,11 +398,19 @@ int main(void){
         }
     }
 
+<<<<<<< HEAD
 
     //financasMensais = fopen("Financas.dat", "r");
  //   fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
  //   printf("Agua: %.2f\n", orcamentoMensal.despesas[AGUA]);
  //   printf("Luz: %.2f\n", orcamentoMensal.despesas[LUZ]);
+=======
+    /*financasMensais = fopen("Financas.dat", "r");
+    fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
+    printf("Agua: %.2f\n", orcamentoMensal.despesas[AGUA]);
+    printf("Luz: %.2f\n", orcamentoMensal.despesas[LUZ]);
+    fclose(financasMensais);*/
+>>>>>>> 35121e916b14bb0180afbbf8b2cf0de8911ac201
     puts("\t >>> Programa Fechado");
 //fclose(financasMensais);
 
