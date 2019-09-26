@@ -122,6 +122,8 @@ int main(void){
         }
     }
 
+    puts("Bolacha é boooooom");
+
     puts("\t >>> Programa Fechado");
 
     return 0;
