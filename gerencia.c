@@ -36,7 +36,7 @@ int main(void){
     FILE *finananciasMensais;
     tOrcamentoMensal orcamentoMensal;
     int op, i;
-
+    printf("JOAOAOOAOAOAOOA TOP DMS");
     /*
 
         Aqui podemos abrir o arquivo que contém todos os dados de todos os meses,
