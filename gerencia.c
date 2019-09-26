@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 typedef enum {ABERTO, FECHADO} tSituacao;
 typedef enum{AGUA, LUZ, INTERNET, EDUCACAO, TRANSPORTE, ALIMENTO, LAZER, OUTROS} tDespesa;
@@ -8,6 +9,7 @@ typedef enum{AGUA, LUZ, INTERNET, EDUCACAO, TRANSPORTE, ALIMENTO, LAZER, OUTROS}
 typedef struct {
 
     char nomeMes[31];           //Nome do mês
+    float receita;
     float despesas[8];          //Array com as diferentes despesas, será acessado com o enum
     tSituacao situ;             /*Se situ for igual a ABERTO afirma que o mês está
                                 com orçamento aberto e se for igual a FECHADO é o contrário*/
@@ -27,6 +29,14 @@ void ExibeMenu(){
             "\t\t|\t\t\t7 - Fechar \t\t\t\t|\n"
             "\t\t|\t\t\t\t\t\t\t\t|\n"
             "\t\t-----------------------------------------------------------------\n\n");
+}
+
+//Função pra criar o novo orcamento com os valores zerados
+void ZeraArray(float ar[], int t){
+    int i;
+    for(i=0; i<t; i++){
+        ar[i]=0;
+    }
 }
 
 int main(void){
@@ -50,6 +60,7 @@ int main(void){
         ExibeMenu();
         printf("\t >>> Digite uma opcao: ");
         scanf("%d", &op);
+        fflush(stdin);
 
         if (op == 7)
             break;
@@ -98,8 +109,22 @@ int main(void){
                     puts("\t >>> Voce ainda possui um orcamento aberto, por favor feche-o antes de criar um novo");
                     break;
                 }
+                financasMensais = fopen("Financas.dat", "ab");
+                if(financasMensais == NULL){
+                    puts("\t >>> Nao foi possivel abrir o arquivo");
+                    return 1;
+                }
+                printf("\t >>> Digite o nome do mes: ");
+                fgets(orcamentoMensal.nomeMes, 31, stdin);
+                fflush(stdin);
+                orcamentoMensal.receita = 0;
+                ZeraArray(orcamentoMensal.despesas, 8);
+                orcamentoMensal.situ = ABERTO;
 
+                fwrite(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
 
+                fclose(financasMensais);
+                puts("\t >>> Orcamento aberto com sucesso");
                 break;
 
 
