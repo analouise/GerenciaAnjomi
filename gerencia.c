@@ -26,7 +26,7 @@ void ExibeMenu(){
             "\t\t|\t\t\t4 - Adicionar Novo Orcamento\t\t|\n"  //Joao :3
             "\t\t|\t\t\t5 - Fechar Orcamento \t\t\t|\n"         //Joao
             "\t\t|\t\t\t6 - Historico \t\t\t\t|\n"              //Milere
-            "\t\t|\t\t\t7 - Atuazlizar Despesa \t\t\t\t|\n"
+            "\t\t|\t\t\t7 - Atualizar Despesa \t\t\t|\n"
             "\t\t|\t\t\t8 - Fechar \t\t\t\t|\n"
             "\t\t|\t\t\t\t\t\t\t\t|\n"
             "\t\t-----------------------------------------------------------------\n\n");
@@ -94,27 +94,26 @@ int main(void){
             puts("\t >>> Nao foi possivel abrir o arquivo");
             return 1;
         }else{
+            fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_END);
             fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
         }
 
         fclose(financasMensais);
 
-        if (orcamentoMensal.situ == FECHADO)
-        {
-            puts("\t >>> Voce nao possui orcamento aberto para fiscalizar, por favor crie um novo");
-        }
 
         ExibeMenu();
         printf("\t >>> Digite uma opcao: ");
         scanf("%d%*c", &op);
         fflush(stdin);
 
-        if (orcamentoMensal.situ == FECHADO  && op != 4){
+        if (op == 8)
+            break;
+
+        if (orcamentoMensal.situ == FECHADO  && (op != 4 && op != 6)){
             puts("\t >>> Voce nao possui orcamento aberto para fiscalizar, por favor crie um novo");
             continue;
         }
-        if (op == 8)
-            break;
+
 
         switch(op){
 
@@ -134,7 +133,8 @@ int main(void){
                 printf("\t\t >>> Sua total receita mensal : %.2f R$\n", orcamentoMensal.receita);
                 ImprimeOrcamento(&orcamentoMensal);
                 printf("\t\t >>> Valor total de despesas: %.2f\n", CalculaDespesaTotal(&orcamentoMensal));
-                printf("\t\t >>> Valor total livre: %.2f",  orcamentoMensal.receita - CalculaDespesaTotal(&orcamentoMensal));
+                printf("\t\t >>> Valor total livre: %.2f\n",  orcamentoMensal.receita - CalculaDespesaTotal(&orcamentoMensal));
+                printf("\t\t >>> Situacao: %s", orcamentoMensal.situ==ABERTO?"Aberto":"Fechado");
 
                 break;
 
@@ -196,7 +196,26 @@ int main(void){
                 /*Opção 5 --->  vai mudar o atributo situ para FECHADO, abrir o arquivo e alterar
                                 a ultima estrutura salva.
                 */
+                if(orcamentoMensal.situ == FECHADO){
+                    puts("\t >>> Voce nao possui orcamento aberto");
+                    break;
+                }
 
+                financasMensais = fopen("Financas.dat", "r+b");
+                fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
+
+                orcamentoMensal.situ = FECHADO;
+
+                if (financasMensais == NULL){
+                    puts("\t >>> Nao foi possivel abrir o arquivo");
+                    return 1;
+                }
+                fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_END);
+                fwrite(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
+
+
+                fclose(financasMensais);
+                puts("\t >>> Orcamento fechado com sucesso");
                 break;
 
 
@@ -228,7 +247,7 @@ int main(void){
                 }
                 break;
 
-             case 7:
+             case 7:            //Atualiza uma das despesas em caso de erro
                 MenuDespesa();
                 financasMensais = fopen("Financas.dat", "r+b");
 
@@ -299,11 +318,12 @@ int main(void){
     }
 
 
-    financasMensais = fopen("Financas.dat", "r");
-    fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
-    printf("Agua: %.2f\n", orcamentoMensal.despesas[AGUA]);
-    printf("Luz: %.2f\n", orcamentoMensal.despesas[LUZ]);
+    //financasMensais = fopen("Financas.dat", "r");
+ //   fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
+ //   printf("Agua: %.2f\n", orcamentoMensal.despesas[AGUA]);
+ //   printf("Luz: %.2f\n", orcamentoMensal.despesas[LUZ]);
     puts("\t >>> Programa Fechado");
+//fclose(financasMensais);
 
     return 0;
 }
