@@ -23,7 +23,7 @@ void ExibeMenu(){
             "\t\t|\t\t\t1 - Status\t\t\t\t|\n"                  //Mirele
             "\t\t|\t\t\t2 - Adicionar Receita\t\t\t|\n"         //Louise
             "\t\t|\t\t\t3 - Adicionar Despesa\t\t\t|\n"         //Louise
-            "\t\t|\t\t\t4 - Adicionar Novo Orcamento\t\t\t|\n"  //Joao :3
+            "\t\t|\t\t\t4 - Adicionar Novo Orcamento\t\t|\n"  //Joao :3
             "\t\t|\t\t\t5 - Fechar Orcamento \t\t\t|\n"         //Joao
             "\t\t|\t\t\t6 - Historico \t\t\t\t|\n"              //Milere
             "\t\t|\t\t\t7 - Fechar \t\t\t\t|\n"
@@ -39,29 +39,67 @@ void ZeraArray(float ar[], int t){
     }
 }
 
+void ImprimeOrcamento(tOrcamentoMensal * orcamentoMensal){
+    printf("\t\t >>> Suas despesas com:\n"
+            "\t\t\t Agua : %.2f R$\n"
+            "\t\t\t Luz : %.2f R$\n"
+            "\t\t\t Internet : %.2f R$\n"
+            "\t\t\t Educacao : %.2f R$\n"
+            "\t\t\t Transporte : %.2f R$\n"
+            "\t\t\t Alimentos : %.2f R$\n"
+            "\t\t\t Lazer : %.2f R$\n"
+            "\t\t\t Outros : %.2f R$\n",orcamentoMensal->despesas[AGUA],orcamentoMensal->despesas[LUZ],orcamentoMensal->despesas[INTERNET],orcamentoMensal->despesas[EDUCACAO],orcamentoMensal->despesas[TRANSPORTE],orcamentoMensal->despesas[ALIMENTO], orcamentoMensal->despesas[LAZER],orcamentoMensal->despesas[OUTROS] );
+               
+}
+
+float CalculaDespesaTotal(tOrcamentoMensal * orcamentoMensal){
+    float somaDespesas = orcamentoMensal->despesas[AGUA] + orcamentoMensal->despesas[LUZ] + orcamentoMensal->despesas[INTERNET] + orcamentoMensal->despesas[EDUCACAO] + orcamentoMensal->despesas[TRANSPORTE] + orcamentoMensal->despesas[ALIMENTO] + orcamentoMensal->despesas[LAZER] + orcamentoMensal->despesas[OUTROS];
+    return somaDespesas;
+}
+
 int main(void){
 
     FILE *financasMensais;
     tOrcamentoMensal orcamentoMensal;
     int op, i;
-    /*
 
-        Aqui podemos abrir o arquivo que contém todos os dados de todos os meses,
-        selecionando a ultima estrutura salva e armazenando-a em --> orcamentoMensal
-        caso seu atributo situ for igual a ABERTO, caso seja FECHADO deve ser pedido ao usuário
-        para adicionar um novo orçamento. MILEEEEEEERE
-
-    */
-
-
-
+    
     while(1){
+
+        /*
+
+            Aqui podemos abrir o arquivo que contém todos os dados de todos os meses,
+            selecionando a ultima estrutura salva e armazenando-a em --> orcamentoMensal
+            caso seu atributo situ for igual a ABERTO, caso seja FECHADO deve ser pedido ao usuário
+            para adicionar um novo orçamento. MILEEEEEEERE
+
+        */
+
+        financasMensais = fopen("Financas.dat", "rb");
+
+        if(financasMensais == NULL){
+            puts("\t >>> Nao foi possivel abrir o arquivo");
+            return 1;
+        }else{
+            fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
+        }
+
+        fclose(financasMensais);
+
+        if (orcamentoMensal.situ == FECHADO)
+        {
+            puts("\t >>> Voce nao possui orcamento aberto para fiscalizar, por favor crie um novo");
+        }
 
         ExibeMenu();
         printf("\t >>> Digite uma opcao: ");
-        scanf("%d", &op);
+        scanf("%d%*c", &op);
         fflush(stdin);
 
+        if (orcamentoMensal.situ == FECHADO  && op != 4){
+            puts("\t >>> Voce nao possui orcamento aberto para fiscalizar, por favor crie um novo");
+            continue;
+        }
         if (op == 7)
             break;
 
@@ -79,6 +117,12 @@ int main(void){
                                 (valor retornado da função que podemos fazer), valor esse deve ser printado para
                                 o usuário saber o quanto ele ainda pode gastar.
                 */
+                printf("\t\t ---------------------- %s -------------------- \n ", orcamentoMensal.nomeMes);
+                printf("\t\t >>> Sua total receita mensal : %.2f R$\n", orcamentoMensal.receita);
+                ImprimeOrcamento(&orcamentoMensal);
+                printf("\t\t >>> Valor total de despesas: %.2f\n", CalculaDespesaTotal(&orcamentoMensal));
+                printf("\t\t >>> Valor total livre: %.2f",  orcamentoMensal.receita - CalculaDespesaTotal(&orcamentoMensal));
+
                 break;
 
 
@@ -109,21 +153,27 @@ int main(void){
                     puts("\t >>> Voce ainda possui um orcamento aberto, por favor feche-o antes de criar um novo");
                     break;
                 }
+
                 financasMensais = fopen("Financas.dat", "ab");
+
                 if(financasMensais == NULL){
                     puts("\t >>> Nao foi possivel abrir o arquivo");
                     return 1;
                 }
-                printf("\t >>> Digite o nome do mes: ");
+                
+                printf("\t\t >>> Digite o nome do mes: ");
                 fgets(orcamentoMensal.nomeMes, 31, stdin);
+                orcamentoMensal.nomeMes[strlen(orcamentoMensal.nomeMes)-1] = '\0';
                 fflush(stdin);
-                orcamentoMensal.receita = 0;
+                printf("\t\t >>> Digite o valor da receita inicial : ");
+                scanf("%f", &orcamentoMensal.receita);
                 ZeraArray(orcamentoMensal.despesas, 8);
                 orcamentoMensal.situ = ABERTO;
 
                 fwrite(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
 
                 fclose(financasMensais);
+
                 puts("\t >>> Orcamento aberto com sucesso");
                 break;
 
@@ -141,7 +191,28 @@ int main(void){
 
                 /*Opção 6 --->  lista todas as estruturas do arquivo com seus atributos.
                 */
+                financasMensais = fopen("Financas.dat", "rb");
 
+                if (!financasMensais){
+                    puts("\t >>> Nao foi possivel abrir o arquivo");
+                    return 1;
+                }else{
+                    while(1){
+
+                        fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
+
+                        if (feof(financasMensais))
+                            break;
+
+                        printf("\n\n\n\t\t ---------------------- %s -------------------- \n ", orcamentoMensal.nomeMes);
+                        printf("\t\t >>> Receita total mensal : %.2f R$\n", orcamentoMensal.receita);
+                        ImprimeOrcamento(&orcamentoMensal);
+                        printf("\t\t >>> Valor total de despesas: %.2f\n", CalculaDespesaTotal(&orcamentoMensal));
+                        printf("\t\t >>> Valor total final livre: %.2f",  orcamentoMensal.receita - CalculaDespesaTotal(&orcamentoMensal));
+
+                    }
+                    fclose(financasMensais);
+                }
                 break;
 
             default:
