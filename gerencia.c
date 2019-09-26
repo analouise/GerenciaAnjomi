@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
+typedef enum {ABERTO, FECHADO} tSituacao;
 //Estrutura que armazenará os dados orçamentais do ultimo mês adicionado
 typedef struct {
 
@@ -11,8 +12,8 @@ typedef struct {
     float despesasAlimen[31];   //Array de despesas em alimentação
     float despesasLazer[31];    //Array de despesas em lazer
     float despesasOutros[31];   //Array de despesas em outras coisas
-    int situ;                   /*Se situ for igual a 0 afirma que o mês está
-                                com orçamento aberto e se for igual a 1 é o contrário*/
+    tSituacao situ;                   /*Se situ for igual a ABERTO afirma que o mês está
+                                com orçamento aberto e se for igual a FECHADO é o contrário*/
 
 } tOrcamentoMensal;
 
