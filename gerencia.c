@@ -75,7 +75,7 @@ int main(void){
 
 
             case 2:
-
+                printf("Mirele é chata")
                 /*Opção 2 --->  Adicionar receita vai somar o valor dado pelo usuário ao atributo receita
                                 estrutura, quando esse valor for adicionado ao anterior, deve-se abrir
                                 novamente o arquivo e alterar a ultima estrutura.
