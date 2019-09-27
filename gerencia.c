@@ -150,7 +150,7 @@ int main(void){
                     }else{
                         fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_END);
                         fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
-                        puts("Digite o valor da receita:");
+                        puts("\t >>>Digite o valor da receita:");
                         scanf("%f", &valorReceita);
                         orcamentoMensal.receita += valorReceita;
                     }
@@ -184,24 +184,37 @@ int main(void){
                         printf("\t\t\t");
                         switch(opDespesa){
                             case 1:
+<<<<<<< HEAD
                                 printf("Agua: ");
+=======
+                                printf("\t >>>Agua:");
+>>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &valor);
                                 orcamentoMensal.despesas[AGUA] += valor;
                                 break;
 
                             case 2:
+<<<<<<< HEAD
                                 printf("Luz: ");
+=======
+                                printf("\t >>>Luz:");
+>>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &valor);
                                 orcamentoMensal.despesas[LUZ] += valor;
                                 break;
 
                             case 3:
+<<<<<<< HEAD
                                 printf("Internet: ");
+=======
+                                printf("\t >>>Internet:");
+>>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &valor);
                                 orcamentoMensal.despesas[INTERNET] += valor;
                                 break;
 
                             case 4:
+<<<<<<< HEAD
                                 printf("Educacao: ");
                                 scanf("%f", &valor);
                                 orcamentoMensal.despesas[EDUCACAO] += valor;
@@ -209,17 +222,30 @@ int main(void){
 
                             case 5:
                                 printf("Transporte: ");
+=======
+                                printf("\t >>>Educacao:");
+                                scanf("%f", &orcamentoMensal.despesas[EDUCACAO]);
+                                break;
+
+                            case 5:
+                                printf("\t >>>Transporte:");
+>>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &valor);
                                 orcamentoMensal.despesas[TRANSPORTE] += valor;
                                 break;
 
                             case 6:
+<<<<<<< HEAD
                                 printf("Alimento: ");
+=======
+                                printf("\t >>>Alimento:");
+>>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &valor);
                                 orcamentoMensal.despesas[ALIMENTO] += valor;
                                 break;
 
                             case 7:
+<<<<<<< HEAD
                                 printf("Lazer: ");
                                 scanf("%f", &valor);
                                 orcamentoMensal.despesas[LAZER] += valor;
@@ -227,12 +253,25 @@ int main(void){
 
                             case 8:
                                 printf("Outros: ");
+=======
+                                printf("\t >>>Lazer:");
+                                scanf("%f", &valor);
+                                orcamentoMensal.despesas[LAZER]+= valor;
+                                break;
+
+                            case 8:
+                                printf("\t >>>Outros:");
+>>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &valor);
                                 orcamentoMensal.despesas[OUTROS] += valor;
                                 break;
 
                             default:
+<<<<<<< HEAD
                                 puts("Opcao invalida");
+=======
+                                printf("\t >>>Opcao invalida");
+>>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 break;
                         }
                     }
@@ -352,7 +391,11 @@ int main(void){
                     }else{
                         fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_END);
                         fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
+<<<<<<< HEAD
                         printf("\t\t >>> Digite a despesa que sera adicionada: \n");
+=======
+                        printf("\t >>>Digite a despesa que sera adicionada: \n");
+>>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                         scanf("%d", &opDespesa);
 
                         if (opDespesa == 9)
@@ -360,27 +403,47 @@ int main(void){
                         printf("\t\t\t");
                         switch(opDespesa){
                             case 1:
+<<<<<<< HEAD
                                 printf("Agua: ");
+=======
+                                puts("\t >>>Agua:");
+>>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &orcamentoMensal.despesas[AGUA]);
                                 break;
 
                             case 2:
+<<<<<<< HEAD
                                 printf("Luz: ");
+=======
+                                puts("\t >>>Luz:");
+>>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &orcamentoMensal.despesas[LUZ]);
                                 break;
 
                             case 3:
+<<<<<<< HEAD
                                 printf("Internet: ");
+=======
+                                puts("\t >>>Internet:");
+>>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &orcamentoMensal.despesas[INTERNET]);
                                 break;
 
                             case 4:
+<<<<<<< HEAD
                                 printf("Educacao: ");
+=======
+                                puts("\t >>>Educacao:");
+>>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &orcamentoMensal.despesas[EDUCACAO]);
                                 break;
 
                             case 5:
+<<<<<<< HEAD
                                 printf("Transporte: ");
+=======
+                                puts("\t >>>Transporte:");
+>>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &orcamentoMensal.despesas[TRANSPORTE]);
                                 break;
 
@@ -390,12 +453,20 @@ int main(void){
                                 break;
 
                             case 7:
+<<<<<<< HEAD
                                 printf("Lazer: ");
+=======
+                                puts("\t >>>Lazer:");
+>>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &orcamentoMensal.despesas[LAZER]);
                                 break;
 
                             case 8:
+<<<<<<< HEAD
                                 printf("Outros: ");
+=======
+                                puts("\t >>> Outros:");
+>>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &orcamentoMensal.despesas[OUTROS]);
                                  break;
 
@@ -412,6 +483,10 @@ int main(void){
                 puts("Opcao invalida");
         }
     }
+<<<<<<< HEAD
+=======
+    puts("\t >>> Programa Fechado");
+>>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
 
 
     return 0;
