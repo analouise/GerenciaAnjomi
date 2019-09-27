@@ -46,12 +46,6 @@ void MenuDespesa(){
             "\t\t|\t\t\t9 - Voltar para menu principal \t\t\t\t|\n");
     }
 
-    float SomaDespesa(float soma){
-        float valor;
-        valor = soma;
-        return valor;
-    }
-
 //Função pra criar o novo orcamento com os valores zerados
 void ZeraArray(float ar[], int t){
     int i;
@@ -122,6 +116,8 @@ int main(void){
         if (op == 8)
             break;
 
+        float valorReceita = 0;
+
         switch(op){
 
             case 1:
@@ -142,10 +138,23 @@ int main(void){
                 printf("\t\t >>> Valor total de despesas: %.2f\n", CalculaDespesaTotal(&orcamentoMensal));
                 printf("\t\t >>> Valor total livre: %.2f",  orcamentoMensal.receita - CalculaDespesaTotal(&orcamentoMensal));
 
+
                 break;
 
-
             case 2:
+                    financasMensais = fopen("Financas.dat", "r+b");
+                    if(financasMensais == NULL){
+                        puts("\t >>> Nao foi possivel abrir o arquivo");
+                        return 1;
+                    }else{
+                        fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
+                        puts("Digite o valor da receita:");
+                        scanf("%f", &valorReceita);
+                        orcamentoMensal.receita += valorReceita;
+                    }
+                    fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_END);
+                    fwrite(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
+                    fclose(financasMensais);
                 /*Opção 2 --->  Adicionar receita vai somar o valor dado pelo usuário ao atributo receita
                                 estrutura, quando esse valor for adicionado ao anterior, deve-se abrir
                                 novamente o arquivo e alterar a ultima estrutura.
@@ -221,6 +230,7 @@ int main(void){
                                 puts("Opcao invalida");
                                 break;
                         }
+                        puts("Despesa adicionada com sucesso!");
                     }
 
                 fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_CUR);
@@ -375,11 +385,10 @@ int main(void){
         }
     }
 
-    /*financasMensais = fopen("Financas.dat", "r");
+    financasMensais = fopen("Financas.dat", "r");
     fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
-    printf("Agua: %.2f\n", orcamentoMensal.despesas[AGUA]);
-    printf("Luz: %.2f\n", orcamentoMensal.despesas[LUZ]);
-    fclose(financasMensais);*/
+    printf("Receita: %.2f\n", orcamentoMensal.receita);
+    fclose(financasMensais);
     puts("\t >>> Programa Fechado");
 
     return 0;
