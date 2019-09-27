@@ -148,6 +148,7 @@ int main(void){
                         puts("\t >>> Nao foi possivel abrir o arquivo");
                         return 1;
                     }else{
+                        fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_END);
                         fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
                         puts("Digite o valor da receita:");
                         scanf("%f", &valorReceita);
@@ -171,6 +172,7 @@ int main(void){
                         puts("\t >>> Nao foi possivel abrir o arquivo");
                         return 1;
                     }else{
+                        fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_END);
                         fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
                         printf("\t\t >>> Digite a despesa que sera adicionada: ");
                         scanf("%d", &opDespesa);
@@ -182,65 +184,66 @@ int main(void){
                         printf("\t\t\t");
                         switch(opDespesa){
                             case 1:
-                                printf("Agua:");
+                                printf("Agua: ");
                                 scanf("%f", &valor);
                                 orcamentoMensal.despesas[AGUA] += valor;
                                 break;
 
                             case 2:
-                                printf("Luz:");
+                                printf("Luz: ");
                                 scanf("%f", &valor);
                                 orcamentoMensal.despesas[LUZ] += valor;
                                 break;
 
                             case 3:
-                                printf("Internet:");
+                                printf("Internet: ");
                                 scanf("%f", &valor);
                                 orcamentoMensal.despesas[INTERNET] += valor;
                                 break;
 
                             case 4:
-                                printf("Educacao:");
-                                scanf("%f", &orcamentoMensal.despesas[EDUCACAO]);
+                                printf("Educacao: ");
+                                scanf("%f", &valor);
+                                orcamentoMensal.despesas[EDUCACAO] += valor;
                                 break;
 
                             case 5:
-                                printf("Transporte:");
+                                printf("Transporte: ");
                                 scanf("%f", &valor);
                                 orcamentoMensal.despesas[TRANSPORTE] += valor;
                                 break;
 
                             case 6:
-                                printf("Alimento:");
+                                printf("Alimento: ");
                                 scanf("%f", &valor);
                                 orcamentoMensal.despesas[ALIMENTO] += valor;
                                 break;
 
                             case 7:
-                                printf("Lazer:");
-                                scanf("%f", &orcamentoMensal.despesas[LAZER]);
+                                printf("Lazer: ");
+                                scanf("%f", &valor);
+                                orcamentoMensal.despesas[LAZER] += valor;
                                 break;
 
                             case 8:
-                                printf("Outros:");
+                                printf("Outros: ");
                                 scanf("%f", &valor);
                                 orcamentoMensal.despesas[OUTROS] += valor;
                                 break;
 
                             default:
-                                printf("Opcao invalida");
+                                puts("Opcao invalida");
                                 break;
                         }
-                        puts("Despesa adicionada com sucesso!");
                     }
 
-                fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_CUR);
+                fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_END);
                 fwrite(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
                 puts("\t >>> Despesa adicionada com sucesso  ");
                 fclose(financasMensais);
 
 
-                /*Opção 3 --->  Adicionar dispesas, deve-se da um menu para opções de despesas, 1 - 5, e de
+                /*Opção 3 --->  Adicionar despesas, deve-se da um menu para opções de despesas, 1 - 5, e de
                                 acordo com a opção, o valor que o usuário digitar vai ser salvo.
                 */
                 break;
@@ -266,10 +269,11 @@ int main(void){
                 printf("\t\t >>> Digite o nome do mes: ");
                 fgets(orcamentoMensal.nomeMes, 31, stdin);
                 orcamentoMensal.nomeMes[strlen(orcamentoMensal.nomeMes)-1] = '\0';
-                fflush(stdin);
+
                 printf("\t\t >>> Digite o valor da receita inicial : ");
                 scanf("%f", &orcamentoMensal.receita);
                 ZeraArray(orcamentoMensal.despesas, 8);
+
                 orcamentoMensal.situ = ABERTO;
 
                 fwrite(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
@@ -291,17 +295,18 @@ int main(void){
                 }
 
                 financasMensais = fopen("Financas.dat", "r+b");
-                fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
-
-                orcamentoMensal.situ = FECHADO;
 
                 if (financasMensais == NULL){
                     puts("\t >>> Nao foi possivel abrir o arquivo");
                     return 1;
                 }
                 fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_END);
-                fwrite(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
+                fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
 
+                orcamentoMensal.situ = FECHADO;
+
+                fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_END);
+                fwrite(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
 
                 fclose(financasMensais);
                 puts("\t >>> Orcamento fechado com sucesso");
@@ -318,8 +323,8 @@ int main(void){
                     puts("\t >>> Nao foi possivel abrir o arquivo");
                     return 1;
                 }else{
+                    fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_SET);
                     while(1){
-
                         fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
 
                         if (feof(financasMensais))
@@ -345,51 +350,52 @@ int main(void){
                         puts("\t >>> Nao foi possivel abrir o arquivo");
                         return 1;
                     }else{
+                        fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_END);
                         fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
-                        printf("Digite a despesa que sera adicionada: \n");
+                        printf("\t\t >>> Digite a despesa que sera adicionada: \n");
                         scanf("%d", &opDespesa);
 
                         if (opDespesa == 9)
                             break;
-
+                        printf("\t\t\t");
                         switch(opDespesa){
                             case 1:
-                                puts("Agua:");
+                                printf("Agua: ");
                                 scanf("%f", &orcamentoMensal.despesas[AGUA]);
                                 break;
 
                             case 2:
-                                puts("Luz:");
+                                printf("Luz: ");
                                 scanf("%f", &orcamentoMensal.despesas[LUZ]);
                                 break;
 
                             case 3:
-                                puts("Internet:");
+                                printf("Internet: ");
                                 scanf("%f", &orcamentoMensal.despesas[INTERNET]);
                                 break;
 
                             case 4:
-                                puts("Educacao:");
+                                printf("Educacao: ");
                                 scanf("%f", &orcamentoMensal.despesas[EDUCACAO]);
                                 break;
 
                             case 5:
-                                puts("Transporte:");
+                                printf("Transporte: ");
                                 scanf("%f", &orcamentoMensal.despesas[TRANSPORTE]);
                                 break;
 
                             case 6:
-                                puts("Alimento:");
+                                printf("Alimento: ");
                                 scanf("%f", &orcamentoMensal.despesas[ALIMENTO]);
                                 break;
 
                             case 7:
-                                puts("Lazer:");
+                                printf("Lazer: ");
                                 scanf("%f", &orcamentoMensal.despesas[LAZER]);
                                 break;
 
                             case 8:
-                                puts("Outros:");
+                                printf("Outros: ");
                                 scanf("%f", &orcamentoMensal.despesas[OUTROS]);
                                  break;
 
@@ -398,7 +404,7 @@ int main(void){
                                 break;
                         }
                     }
-                fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_CUR);
+                fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_END);
                 fwrite(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
                 fclose(financasMensais);
                 break;
@@ -407,42 +413,7 @@ int main(void){
         }
     }
 
-<<<<<<< HEAD
-    financasMensais = fopen("Financas.dat", "r");
-    fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
-    printf("Receita: %.2f\n", orcamentoMensal.receita);
-    fclose(financasMensais);
-=======
-
-    //financasMensais = fopen("Financas.dat", "r");
- //   fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
- //   printf("Agua: %.2f\n", orcamentoMensal.despesas[AGUA]);
- //   printf("Luz: %.2f\n", orcamentoMensal.despesas[LUZ]);
->>>>>>> 4f3234d96b184063a2d4a7cd6ae68a1b132058b3
-    puts("\t >>> Programa Fechado");
-//fclose(financasMensais);
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
