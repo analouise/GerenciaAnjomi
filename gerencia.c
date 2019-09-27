@@ -116,7 +116,8 @@ int main(void){
         }
 
 
-        float valorReceita = 0;
+        float valorReceita = 0; // Armazena o valor adicional na receita
+        float valorDespesa = 0; // Armazana o valor adicional das despesas 
 
         switch(op){
 
@@ -143,6 +144,10 @@ int main(void){
                 break;
 
             case 2:
+                /*Opção 2 --->  Adicionar receita vai somar o valor dado pelo usuário ao atributo receita
+                                estrutura, quando esse valor for adicionado ao anterior, deve-se abrir
+                                novamente o arquivo e alterar a ultima estrutura.
+                */
                     financasMensais = fopen("Financas.dat", "r+b");
                     if(financasMensais == NULL){
                         puts("\t >>> Nao foi possivel abrir o arquivo");
@@ -150,21 +155,23 @@ int main(void){
                     }else{
                         fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_END);
                         fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
-                        puts("\t >>>Digite o valor da receita:");
+                        printf("\t\t >>>Digite o valor adicional da da receita: ");
                         scanf("%f", &valorReceita);
                         orcamentoMensal.receita += valorReceita;
                     }
                     fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_END);
                     fwrite(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
+                    puts("\t >>> Receita adicionada com sucesso  ");
                     fclose(financasMensais);
-                /*Opção 2 --->  Adicionar receita vai somar o valor dado pelo usuário ao atributo receita
-                                estrutura, quando esse valor for adicionado ao anterior, deve-se abrir
-                                novamente o arquivo e alterar a ultima estrutura.
-                */
+
                 break;
 
 
             case 3:
+
+                /*Opção 3 --->  Adicionar despesas, deve-se da um menu para opções de despesas, 1 - 5, e de
+                                acordo com a opção, o valor que o usuário digitar vai ser salvo.
+                */
                 MenuDespesa();
                 financasMensais = fopen("Financas.dat", "r+b");
 
@@ -180,98 +187,59 @@ int main(void){
                         if (opDespesa == 9)
                             break;
 
-                        float valor = 0;
+
                         printf("\t\t\t");
                         switch(opDespesa){
                             case 1:
-<<<<<<< HEAD
                                 printf("Agua: ");
-=======
-                                printf("\t >>>Agua:");
->>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
-                                scanf("%f", &valor);
-                                orcamentoMensal.despesas[AGUA] += valor;
+                                scanf("%f", &valorDespesa);
+                                orcamentoMensal.despesas[AGUA] += valorDespesa;
                                 break;
 
                             case 2:
-<<<<<<< HEAD
                                 printf("Luz: ");
-=======
-                                printf("\t >>>Luz:");
->>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
-                                scanf("%f", &valor);
-                                orcamentoMensal.despesas[LUZ] += valor;
+                                scanf("%f", &valorDespesa);
+                                orcamentoMensal.despesas[LUZ] += valorDespesa;
                                 break;
 
                             case 3:
-<<<<<<< HEAD
                                 printf("Internet: ");
-=======
-                                printf("\t >>>Internet:");
->>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
-                                scanf("%f", &valor);
-                                orcamentoMensal.despesas[INTERNET] += valor;
+                                scanf("%f", &valorDespesa);
+                                orcamentoMensal.despesas[INTERNET] += valorDespesa;
                                 break;
 
                             case 4:
-<<<<<<< HEAD
                                 printf("Educacao: ");
-                                scanf("%f", &valor);
-                                orcamentoMensal.despesas[EDUCACAO] += valor;
+                                scanf("%f", &valorDespesa);
+                                orcamentoMensal.despesas[EDUCACAO] += valorDespesa;
                                 break;
 
                             case 5:
                                 printf("Transporte: ");
-=======
-                                printf("\t >>>Educacao:");
-                                scanf("%f", &orcamentoMensal.despesas[EDUCACAO]);
-                                break;
-
-                            case 5:
-                                printf("\t >>>Transporte:");
->>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
-                                scanf("%f", &valor);
-                                orcamentoMensal.despesas[TRANSPORTE] += valor;
+                                scanf("%f", &valorDespesa);
+                                orcamentoMensal.despesas[TRANSPORTE] += valorDespesa;
                                 break;
 
                             case 6:
-<<<<<<< HEAD
                                 printf("Alimento: ");
-=======
-                                printf("\t >>>Alimento:");
->>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
-                                scanf("%f", &valor);
-                                orcamentoMensal.despesas[ALIMENTO] += valor;
+                                scanf("%f", &valorDespesa);
+                                orcamentoMensal.despesas[ALIMENTO] += valorDespesa;
                                 break;
 
                             case 7:
-<<<<<<< HEAD
                                 printf("Lazer: ");
-                                scanf("%f", &valor);
-                                orcamentoMensal.despesas[LAZER] += valor;
+                                scanf("%f", &valorDespesa);
+                                orcamentoMensal.despesas[LAZER] += valorDespesa;
                                 break;
 
                             case 8:
                                 printf("Outros: ");
-=======
-                                printf("\t >>>Lazer:");
-                                scanf("%f", &valor);
-                                orcamentoMensal.despesas[LAZER]+= valor;
-                                break;
-
-                            case 8:
-                                printf("\t >>>Outros:");
->>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
-                                scanf("%f", &valor);
-                                orcamentoMensal.despesas[OUTROS] += valor;
+                                scanf("%f", &valorDespesa);
+                                orcamentoMensal.despesas[OUTROS] += valorDespesa;
                                 break;
 
                             default:
-<<<<<<< HEAD
                                 puts("Opcao invalida");
-=======
-                                printf("\t >>>Opcao invalida");
->>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 break;
                         }
                     }
@@ -281,10 +249,6 @@ int main(void){
                 puts("\t >>> Despesa adicionada com sucesso  ");
                 fclose(financasMensais);
 
-
-                /*Opção 3 --->  Adicionar despesas, deve-se da um menu para opções de despesas, 1 - 5, e de
-                                acordo com a opção, o valor que o usuário digitar vai ser salvo.
-                */
                 break;
 
 
@@ -391,11 +355,7 @@ int main(void){
                     }else{
                         fseek(financasMensais, -sizeof(tOrcamentoMensal), SEEK_END);
                         fread(&orcamentoMensal, sizeof(tOrcamentoMensal), 1, financasMensais);
-<<<<<<< HEAD
                         printf("\t\t >>> Digite a despesa que sera adicionada: \n");
-=======
-                        printf("\t >>>Digite a despesa que sera adicionada: \n");
->>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                         scanf("%d", &opDespesa);
 
                         if (opDespesa == 9)
@@ -403,47 +363,27 @@ int main(void){
                         printf("\t\t\t");
                         switch(opDespesa){
                             case 1:
-<<<<<<< HEAD
                                 printf("Agua: ");
-=======
-                                puts("\t >>>Agua:");
->>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &orcamentoMensal.despesas[AGUA]);
                                 break;
 
                             case 2:
-<<<<<<< HEAD
                                 printf("Luz: ");
-=======
-                                puts("\t >>>Luz:");
->>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &orcamentoMensal.despesas[LUZ]);
                                 break;
 
                             case 3:
-<<<<<<< HEAD
                                 printf("Internet: ");
-=======
-                                puts("\t >>>Internet:");
->>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &orcamentoMensal.despesas[INTERNET]);
                                 break;
 
                             case 4:
-<<<<<<< HEAD
                                 printf("Educacao: ");
-=======
-                                puts("\t >>>Educacao:");
->>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &orcamentoMensal.despesas[EDUCACAO]);
                                 break;
 
                             case 5:
-<<<<<<< HEAD
                                 printf("Transporte: ");
-=======
-                                puts("\t >>>Transporte:");
->>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &orcamentoMensal.despesas[TRANSPORTE]);
                                 break;
 
@@ -453,20 +393,12 @@ int main(void){
                                 break;
 
                             case 7:
-<<<<<<< HEAD
                                 printf("Lazer: ");
-=======
-                                puts("\t >>>Lazer:");
->>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &orcamentoMensal.despesas[LAZER]);
                                 break;
 
                             case 8:
-<<<<<<< HEAD
                                 printf("Outros: ");
-=======
-                                puts("\t >>> Outros:");
->>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
                                 scanf("%f", &orcamentoMensal.despesas[OUTROS]);
                                  break;
 
@@ -483,11 +415,7 @@ int main(void){
                 puts("Opcao invalida");
         }
     }
-<<<<<<< HEAD
-=======
     puts("\t >>> Programa Fechado");
->>>>>>> 8d550c1d06e4d2380e4a33c49c96330108f6d421
-
 
     return 0;
 }
